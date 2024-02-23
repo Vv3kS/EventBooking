@@ -1,10 +1,8 @@
-// AddEventsComp.js
-
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { addEvent } from './actions';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import EventDTO from './EventDTO';
+import Nav from '../Navbar';
 
 const getCurrentDateTime = () => {
   const now = new Date();
@@ -21,13 +19,14 @@ const AddEventsComp = ({ addEvent }) => {
   const [formData, setFormData] = useState({
     availableTickets: '',
     description: '',
-    eventname: '',
+    eventName: '',
     startDate: getCurrentDateTime(),
     ticketPrice: '',
     endDate: getCurrentDateTime(),
     location: '',
     venue: '',
     organiser: {},
+    categoryId: '', // new field
   });
 
   const [categories, setCategories] = useState([]);
@@ -51,10 +50,19 @@ const AddEventsComp = ({ addEvent }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value,
-    }));
+    if (name === 'eventName') {
+      const selectedCategory = categories.find((cat) => cat.catName === value);
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        eventName: value,
+        categoryId: selectedCategory ? selectedCategory.catId : '',
+      }));
+    } else {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [name]: value,
+      }));
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -66,21 +74,24 @@ const AddEventsComp = ({ addEvent }) => {
         throw new Error('Organiser ID not found in localStorage');
       }
 
-      const selectedCategory = categories.find((category) => category.catName === formData.eventname);
-
       const formDataWithFullObjects = {
         ...formData,
         organiser: loggedOrganiser,
+        eventName : formData.eventName
       };
 
-      const eventDTO = new EventDTO(formDataWithFullObjects, loggedOrganiser.organiser_id, selectedCategory);
+      const requestBody = {
+        ...formDataWithFullObjects,
+        organiser_id: loggedOrganiser.organiser_id,
+        categoryId: formDataWithFullObjects.categoryId, // new field
+      };
 
       const response = await fetch('http://localhost:8080/saveevent', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(eventDTO),
+        body: JSON.stringify(requestBody),
       });
 
       if (!response.ok) {
@@ -94,107 +105,109 @@ const AddEventsComp = ({ addEvent }) => {
   };
 
   return (
-    <div className="container mt-4">
-    <div>{JSON.stringify(categories)}************************************8</div>
-      <div className="row justify-content-center">
-        <div className="col-md-8">
-          <h2 className="text-center mb-4">Add Event</h2>
-          <form onSubmit={handleSubmit}>
-            <div className="mb-3">
-              <label className="form-label">Available Tickets:</label>
-              <input
-                type="text"
-                className="form-control"
-                name="availableTickets"
-                value={formData.availableTickets}
-                onChange={handleChange}
-              />
-            </div>
-            <div className="mb-3">
-              <label className="form-label">Description:</label>
-              <textarea
-                rows="4"
-                className="form-control"
-                name="description"
-                value={formData.description}
-                onChange={handleChange}
-              />
-            </div>
-            <div className="mb-3">
-              <label className="form-label">Select Category:</label>
-              <select
-                className="form-select"
-                name="eventname"
-                value={formData.eventname}
-                onChange={handleChange}
-              >
-                <option value="">Select a category</option>
-                {categories.map((category) => (
-                  <option key={category.cat_id} value={category.catName}>
-                    {category.catName}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="mb-3">
-              <label className="form-label">Start Date:</label>
-              <input
-                type="datetime-local"
-                className="form-control"
-                name="startDate"
-                value={formData.startDate}
-                onChange={handleChange}
-                min={getCurrentDateTime()}
-              />
-            </div>
-            <div className="mb-3">
-              <label className="form-label">Ticket Price:</label>
-              <input
-                type="text"
-                className="form-control"
-                name="ticketPrice"
-                value={formData.ticketPrice}
-                onChange={handleChange}
-              />
-            </div>
-            <div className="mb-3">
-              <label className="form-label">Location:</label>
-              <input
-                type="text"
-                className="form-control"
-                name="location"
-                value={formData.location}
-                onChange={handleChange}
-              />
-            </div>
-            <div className="mb-3">
-              <label className="form-label">End Date:</label>
-              <input
-                type="datetime-local"
-                className="form-control"
-                name="endDate"
-                value={formData.endDate}
-                onChange={handleChange}
-                min={getCurrentDateTime()}
-              />
-            </div>
-            <div className="mb-3">
-              <label className="form-label">Venue:</label>
-              <input
-                type="text"
-                className="form-control"
-                name="venue"
-                value={formData.venue}
-                onChange={handleChange}
-              />
-            </div>
-            <button type="submit" className="btn btn-primary">
-              Add Event
-            </button>
-          </form>
+    <>
+      <Nav />
+      <div className="container mt-4">
+        <div className="row justify-content-center">
+          <div className="col-md-8">
+            <h2 className="text-center mb-4">Add Event</h2>
+            <form onSubmit={handleSubmit}>
+              <div className="mb-3">
+                <label className="form-label">Available Tickets:</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="availableTickets"
+                  value={formData.availableTickets}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="mb-3">
+                <label className="form-label">Description:</label>
+                <textarea
+                  rows="4"
+                  className="form-control"
+                  name="description"
+                  value={formData.description}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="mb-3">
+                <label className="form-label">Event Name:</label>
+                <select
+                  className="form-select"
+                  name="eventName"
+
+                  onChange={handleChange}
+                >
+                  <option value="">Select a category</option>
+                  {categories.map((category) => (
+                    <option key={category.catName} value={FormData.eventName}>
+                      {category.catName}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="mb-3">
+                <label className="form-label">Start Date:</label>
+                <input
+                  type="datetime-local"
+                  className="form-control"
+                  name="startDate"
+                  value={formData.startDate}
+                  onChange={handleChange}
+                  min={getCurrentDateTime()}
+                />
+              </div>
+              <div className="mb-3">
+                <label className="form-label">Ticket Price:</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="ticketPrice"
+                  value={formData.ticketPrice}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="mb-3">
+                <label className="form-label">Location:</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="location"
+                  value={formData.location}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="mb-3">
+                <label className="form-label">End Date:</label>
+                <input
+                  type="datetime-local"
+                  className="form-control"
+                  name="endDate"
+                  value={formData.endDate}
+                  onChange={handleChange}
+                  min={getCurrentDateTime()}
+                />
+              </div>
+              <div className="mb-3">
+                <label className="form-label">Venue:</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="venue"
+                  value={formData.venue}
+                  onChange={handleChange}
+                />
+              </div>
+              <button type="submit" className="btn btn-primary">
+                Add Event
+              </button>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

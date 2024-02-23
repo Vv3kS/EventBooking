@@ -18,9 +18,6 @@ export const AdminHomeComp=()=>{
                 <li className="nav-item">
                 <Link to='/viewEvent' className='nav-link' id='link' style={{fontSize:"small"}}>View Booking Event </Link>
                 </li>
-                <li className="nav-item">
-                <Link to='/edit' className='nav-link' id='link' style={{fontSize:"small"}}>View Payment Of All </Link>
-                </li>
                 <li className='nav-item'>
                     <Link to='/logout' className='nav-link' id='link'>logout</Link>
                 </li>

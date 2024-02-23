@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Nav from '../Navbar';
 
 const ViewEvent = () => {
   const [events, setEvents] = useState([]);
@@ -40,6 +41,8 @@ const ViewEvent = () => {
   };
 
   return (
+    <>
+    <Nav />
     <div className="container mt-5">
       <h2>View Events</h2>
       <ul className="list-group">
@@ -63,6 +66,7 @@ const ViewEvent = () => {
         ))}
       </ul>
     </div>
+    </>
   );
 };
 

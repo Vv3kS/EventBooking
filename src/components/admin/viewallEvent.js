@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Navbar1 from './NavbarAdmin';
 
 const ViewEventComp = () => {
   const [events, setEvents] = useState([]);
-
   useEffect(() => {
     fetchEvents();
   }, []);
@@ -40,6 +40,8 @@ const ViewEventComp = () => {
   };
 
   return (
+    <>
+    <Navbar1/>
     <div className="container mt-5">
       <h2>View Events</h2>
       <ul className="list-group">
@@ -63,6 +65,7 @@ const ViewEventComp = () => {
         ))}
       </ul>
     </div>
+    </>
   );
 };
 

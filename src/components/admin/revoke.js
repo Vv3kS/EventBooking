@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Navbar1 from './NavbarAdmin';
 
 const Revoke = () => {
   const [organisers, setOrganisers] = useState([]);
@@ -7,7 +8,7 @@ const Revoke = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const organisersResponse = await fetch('http://localhost:8080/getallorganiser');
+        const organisersResponse = await fetch('https://localhost:7200/api/Organisers');
         const organisersData = await organisersResponse.json();
         setOrganisers(organisersData);
 
@@ -45,6 +46,8 @@ const Revoke = () => {
   };
 
   return (
+    <>
+    <Navbar1/>
     <div className="container mt-5">
     <h2>Organisers</h2>
     <ul className="list-group">
@@ -66,10 +69,10 @@ const Revoke = () => {
               <strong>Email:</strong> {organiser.email}
             </div>
             <div>
-              <strong>First Name:</strong> {organiser.first_name}
+              <strong>First Name:</strong> {organiser.firstName}
             </div>
             <div>
-              <strong>Last Name:</strong> {organiser.last_name}
+              <strong>Last Name:</strong> {organiser.lastName}
             </div>
             <div>
               <strong>Gender:</strong> {organiser.gender}
@@ -79,9 +82,6 @@ const Revoke = () => {
             </div>
             <div>
               <strong>Password:</strong> {organiser.password}
-            </div>
-            <div>
-              <strong>Login ID:</strong> {organiser.login.login_id}
             </div>
             <button className="btn btn-danger" onClick={() => handleDeleteOrganiser(organiser.organiser_id)}>Delete</button>
           </li>
@@ -128,6 +128,7 @@ const Revoke = () => {
         ))}
       </ul>
     </div>
+    </>
   );
 };
 

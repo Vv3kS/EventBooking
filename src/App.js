@@ -1,7 +1,6 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
-import { AttendeeHome } from './components/AttendeesHome';
-import { Link, Route, Routes } from 'react-router-dom';
+import { Link, Route, Routes , useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { LoginComp } from './components/Logincomp';
 import { HomeComp } from './components/HomeComp';
@@ -18,10 +17,19 @@ import ViewEvent from './components/organiser/viewEvent';
 import { AdminHomeComp } from './components/admin/adminHomeComp';
 import Revoke from './components/admin/revoke';
 import ViewEventComp from './components/admin/viewallEvent';
+import { AttendeeHome } from './components/attendee/AttendeesHome';
+import ViewAllEvents from './components/attendee/viewallevents';
+import BookingForm from './components/attendee/Booking';
+import BookingInfo from './components/attendee/viewBooking';
+import EditAttendeeComp from './components/attendee/editAttendee';
 function App() {
   const myState = useSelector(state => state.logged);
+  const { eventId } = useParams();
+  const { attendeeId } = useParams();
   return (
     <div >
+
+    
       
       <div style={{display: myState.loggedIn?"none":"block"}}>
       <ul className='nav navbar' style={{backgroundColor:"GrayText"}}>
@@ -39,28 +47,7 @@ function App() {
           </li>
         </ul> 
         </div>
-        <div style={{display: myState.loggedIn?"block":"none"}}>
-        <ul className='nav navbar' style={{backgroundColor:"black"}}>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li className="nav-item">
-        <Link to='/event' className='nav-link' id='link' style={{fontSize:"small"}}>View Events</Link> 
-        </li>
-        <li className="nav-item">
-        <Link to='/addevent' className='nav-link' id='link' style={{fontSize:"small"}}>Add Events</Link>
-        </li>
-        <li className="nav-item">
-        <Link to='/edit' className='nav-link' id='link' style={{fontSize:"small"}}>Update Profile</Link>
-        </li>
-        <li className='nav-item'>
-            <Link to='/logout' className='nav-link' id='link'>logout</Link>
-        </li>
-    </ul></div>
+       
         <Routes>
           <Route path='/' element={<HomeComp/>}/>
           <Route path='/login' element={<LoginComp/>}/>
@@ -79,6 +66,12 @@ function App() {
           <Route path='/organizer' element={<OrganizerHome/>}/>
             <Route path='/addevent' element={<AddEventsComp/>}/>
           <Route/>
+          <Route path='/attendee' element={<AttendeeHome/>}/>
+          <Route path='/viewallevents' element={<ViewAllEvents/>}/>
+          <Route path="/booking/:eventId" element={<BookingForm eventId={eventId}/>}/>
+          <Route path='/viewBooking/:attendeeId' element={<BookingInfo attendeeId={attendeeId}/>}/>
+          <Route path='/editattendee' element={<EditAttendeeComp/>}/>
+
 
           <Route path='*' element={<h1>dummy info</h1>}/>
         </Routes>
