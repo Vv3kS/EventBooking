@@ -6,6 +6,7 @@ import { useSelector } from "react-redux"
 import { Link, Route, Routes } from "react-router-dom"
 import ViewAllEvents from "./viewallevents"
 import BookingInfo from "./viewBooking"
+import EditAttendeeComp from "./editAttendee"
 
 export const AttendeeHome = () => {
     const[attendee , setAttendee]= useState(null)
@@ -37,6 +38,8 @@ export const AttendeeHome = () => {
                 <Routes>
                     <Route path='/viewallevents' element={<ViewAllEvents />} />
                  <Route path='/viewBooking/:attendeeId' element={<BookingInfo/>} /> 
+                 <Route path='/editattendee' element={<EditAttendeeComp/>}/>
+
                     
                 </Routes>
             </div>

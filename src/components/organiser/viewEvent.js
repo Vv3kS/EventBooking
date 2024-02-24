@@ -4,14 +4,24 @@ import Nav from '../Navbar';
 
 const ViewEvent = () => {
   const [events, setEvents] = useState([]);
+  const [organiserId, setOrganiserId] = useState(null);
+
+  useEffect(() => {
+    const organiser = localStorage.getItem("loggedOrganiser");
+    const org = JSON.parse(organiser);
+    const id = org.organiser_id;
+    setOrganiserId(id);
+
+    fetchEvents(id);
+  }, []);
 
   useEffect(() => {
     fetchEvents();
   }, []);
 
-  const fetchEvents = async () => {
+  const fetchEvents = async (organiserId) => {
     try {
-      const response = await fetch('http://localhost:8080/getallevent');
+      const response = await fetch(`http://localhost:8080/eventsbyorganiser/${organiserId}`);
       const data = await response.json();
 
       if (!response.ok) {
@@ -34,7 +44,7 @@ const ViewEvent = () => {
         throw new Error('Failed to delete event');
       }
       
-      fetchEvents();
+      fetchEvents(organiserId);
     } catch (error) {
       console.error('Error deleting event:', error.message);
     }

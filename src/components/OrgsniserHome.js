@@ -30,13 +30,7 @@ export const OrganizerHome = () => {
             </div>
 
 
-            <div className="container-fluid">
-
-
-
-                <div className="ArtworkForSale" style={{ left: 535, top: 1057, position: 'absolute', color: 'black', fontSize: 36, fontFamily: 'Inter', fontWeight: '700', wordWrap: 'break-word' }}>ARTWORK FOR SALE</div>
-
-            </div>
+            
 
 
         </div>

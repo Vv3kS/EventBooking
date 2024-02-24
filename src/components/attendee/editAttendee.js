@@ -47,13 +47,13 @@ const EditAttendeeComp = () => {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to update organiser data');
+        throw new Error('Failed to update attendee data');
       }
 
       setSuccessMessage('Profile has been updated successfully');
-      console.log('Organiser data updated successfully');
+      console.log('Attendee data updated successfully');
     } catch (error) {
-      console.error('Error updating organiser data:', error);
+      console.error('Error updating attendee data:', error);
     }
   };
 
@@ -61,7 +61,7 @@ const EditAttendeeComp = () => {
     <>
     <NavA/>
       <div className="container mt-5">
-        <h2>Edit Organiser Information</h2>
+        <h2>Edit Attendee Information</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
             <label className="form-label">First Name:</label>

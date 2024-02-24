@@ -64,8 +64,8 @@ function App() {
           <Route path='/viewEvent' element={<ViewEventComp/>}/>
           <Route path='/attendee' element={<AttendeeHome/>}/>
           <Route path='/organizer' element={<OrganizerHome/>}/>
-            <Route path='/addevent' element={<AddEventsComp/>}/>
-          <Route/>
+          <Route path='/addevent' element={<AddEventsComp/>}/>
+          
           <Route path='/attendee' element={<AttendeeHome/>}/>
           <Route path='/viewallevents' element={<ViewAllEvents/>}/>
           <Route path="/booking/:eventId" element={<BookingForm eventId={eventId}/>}/>
