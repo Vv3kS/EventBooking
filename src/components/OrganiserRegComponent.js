@@ -192,7 +192,7 @@ function OrganiserRegComp() {
     );
   };
 
-  // Update form validity whenever inputs change
+  
   const updateFormValidity = () => {
     setFormValid(isFormValid());
   };
@@ -200,11 +200,12 @@ function OrganiserRegComp() {
   return (
     <div>
       <div className="container-fluid custom-bg" style={{ height: "40vh" }}>
-        <h1 style={{ fontFamily: "Antic Didone", color: "black", backgroundColor: "white" }}>ORGANISER REGISTRATION</h1>
+        <h1 style={{ fontFamily: "Antic Didone", color: "black"}}>ORGANISER REGISTRATION</h1>
       </div>
+      
       <div className="row justify-content-center">
-        <div className="col-md-4 mt-5">
-          <form>
+        <div className="col-md-4">
+        <form style={{ border: '5px solid black', padding: '20px' }}>
             <label className="form-label" htmlFor="fname">
               Enter First Name
             </label>
@@ -397,7 +398,7 @@ function OrganiserRegComp() {
             </div>
 
             <p style={{ float: "right" }}>
-              already have an account? <Link to="/login">login</Link>
+              already have an account? <Link to="/login" style={{color: "black"}}>login</Link>
             </p>
             <br />
             <input

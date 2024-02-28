@@ -21,16 +21,16 @@ const ViewAllEvents = () => {
 
   const navigate = useNavigate();
 
-  const handleRegister = (event1) => {
-    localStorage.setItem('registeredFor', JSON.stringify({ event1 }));
-    const selectedEvent = events.find((e) => e.eventId === event1.id);
-    if (event1) {
+  const handleRegister = (event) => {
+    localStorage.setItem('registeredFor', JSON.stringify({ event }));
+    const selectedEvent = events.find((e) => e.eventId === event.eventId);
+    if (selectedEvent) {
       setSelectedEvent(selectedEvent);
       setIsBookingOpen(true);
-      navigate(`/Booking/${event1}`, { state: {eventName: event1.eventName , eventId :event1.eventId} });
-      console.log('You are registering for the following event:', event1.eventName, 'Event Id :', event1.eventId);
-    }  else {
-      console.log('Event not found:', event1.eventId);
+      navigate(`/Booking/${event.eventId}`, { state: { eventName: event.eventName, eventId: event.eventId } });
+      console.log('You are registering for the following event:', event.eventName, 'Event Id:', event.eventId);
+    } else {
+      console.log('Event not found:', event.eventId);
     }
   };
 
@@ -45,39 +45,26 @@ const ViewAllEvents = () => {
   } else if (status === 'succeeded') {
     content = (
       <>
-      <NavA/>
-      <div>
-        <table className="table table-striped table-bordered text-center" style={eventsStyles}>
-          <thead>
-            <tr style={eventsThTdStyles}>
-              <th>Event Name</th>
-              <th>Description</th>
-              <th>Start Date</th>
-              <th>Venue</th>
-              <th>Available Tickets</th>
-              <th>Ticket Price</th>
-              <th>Register</th>
-            </tr>
-          </thead>
-          <tbody>
-            {events.map((event) => (
-              <tr key={event.eventId}>
-                <td>{event.eventName}</td>
-                <td>{event.description}</td>
-                <td>{event.startDate}</td>
-                <td>{event.venue}</td>
-                <td>{event.availableTickets}</td>
-                <td>{event.ticketPrice}</td>
-                <td>
-                  <button onClick={() => handleRegister(event.eventId)}>
-                    Register
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+        <NavA />
+        <div style={{ padding: '20px', display: 'flex', flexWrap: 'wrap' }}>
+          {events.map((event) => (
+            <div key={event.eventId} style={eventCardStyles}>
+              <label style={labelStyles}>Event Name:</label>
+              <p>{event.eventName}</p>
+              <label style={labelStyles}>Description:</label>
+              <p>{event.description}</p>
+              <label style={labelStyles}>Start Date:</label>
+              <p>{event.startDate}</p>
+              <label style={labelStyles}>Venue:</label>
+              <p>{event.venue}</p>
+              <label style={labelStyles}>Available Tickets:</label>
+              <p>{event.availableTickets}</p>
+              <label style={labelStyles}>Ticket Price:</label>
+              <p>{event.ticketPrice}</p>
+              <button className="btn btn-primary" onClick={() => handleRegister(event)}>Register</button>
+            </div>
+          ))}
+        </div>
       </>
     );
   } else if (status === 'failed') {
@@ -98,14 +85,17 @@ const ViewAllEvents = () => {
   );
 };
 
-const eventsStyles = {
-  borderCollapse: 'collapse',
-  border: '2px solid #ccc',
+const eventCardStyles = {
+  border: '5px solid black',
+  padding: '10px',
+  margin: '10px',
+  width: '300px',
 };
 
-const eventsThTdStyles = {
-  border: '1px solid #ccc',
-  padding: '10px',
+const labelStyles = {
+  fontWeight: 'bold',
+  marginRight: '5px',
+  marginBottom: '5px',
 };
 
 export default ViewAllEvents;

@@ -59,10 +59,10 @@ const EditAttendeeComp = () => {
 
   return (
     <>
-    <NavA/>
-      <div className="container mt-5">
+      <NavA />
+      <div className="container mt-5" style={{ padding: '20px' }}>
         <h2>Edit Attendee Information</h2>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} style={{ border: '5px solid black', padding: '20px', borderRadius: '10px' }}>
           <div className="mb-3">
             <label className="form-label">First Name:</label>
             <input

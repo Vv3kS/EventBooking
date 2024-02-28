@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import NavA from './NavbarAttendee';
 import { useParams } from 'react-router-dom';
@@ -8,19 +7,14 @@ const BookingInfo = () => {
   const [fetchTrigger, setFetchTrigger] = useState(false);
   const { attendee_id } = useParams();
 
-  
   const loggedAttendee = JSON.parse(localStorage.getItem('loggedOrganiser'));
 
   useEffect(() => {
     if (loggedAttendee && loggedAttendee.attendee_id) {
-     
       const attendeeIdFromStorage = loggedAttendee.attendee_id;
-
-      
       fetchData(attendeeIdFromStorage);
     } else {
       console.error('AttendeeId not found in local storage');
-      
     }
   }, [fetchTrigger]);
 
@@ -63,12 +57,12 @@ const BookingInfo = () => {
   return (
     <>
       <NavA />
-      <div>
+      <div style={{padding: '20px', minHeight: '100vh', background:  'transparent'}}>
         <h2>Booking Information</h2>
         {bookingInfo.length > 0 ? (
-          <table className="table table-bordered mt-3">
+          <table className="table table-bordered mt-3" style={{ border: '5px solid black', background: 'transparent' }}>
             <thead>
-              <tr>
+              <tr style={{ background: 'transparent' }} >
                 <th>Booking ID</th>
                 <th>Booking Date</th>
                 <th>Ticket Quantity</th>
@@ -78,7 +72,7 @@ const BookingInfo = () => {
                 <th>Cancel Booking</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody style={{ background: 'transparent' }}>
               {bookingInfo.map((booking) => {
                 const {
                   bookingId,

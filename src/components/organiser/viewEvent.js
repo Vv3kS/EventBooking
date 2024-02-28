@@ -50,32 +50,54 @@ const ViewEvent = () => {
     }
   };
 
+  const handleUpdate = async (eventId) => {
+    try {
+      const response = await fetch(`http://localhost:8080/${eventId}`, {
+        method: 'PUT',
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to update event');
+      }
+      
+      fetchEvents(organiserId);
+    } catch (error) {
+      console.error('Error updating event:', error.message);
+    }
+  };
+
   return (
     <>
-    <Nav />
-    <div className="container mt-5">
-      <h2>View Events</h2>
-      <ul className="list-group">
-        {events.map((event) => (
-          <li key={event.eventId} className="list-group-item">
-            <div>
-              <p>Event Name: {event.eventName}</p>
-              <p>Description: {event.description}</p>
-              <p>Start Date: {event.startDate}</p>
-              <p>Venue: {event.venue}</p>
-              <p>Available Ticket: {event.availableTickets}</p>
-              <p>Ticket Price: {event.ticketPrice}</p>
-              <button
-                onClick={() => handleDelete(event.eventId)}
-                className="btn btn-danger btn-sm"
-              >
-                Delete
-              </button>
+      <Nav />
+      <div className="container mt-5 mb-3">
+        <h2>View Events</h2>
+        <div className="card-deck">
+          {events.map((event) => (
+            <div key={event.eventId} className="card">
+              <div className="card-body">
+                <h5 className="card-title">Event Name: {event.eventName}</h5>
+                <p className="card-text">Description: {event.description}</p>
+                <p className="card-text">Start Date: {event.startDate}</p>
+                <p className="card-text">Venue: {event.venue}</p>
+                <p className="card-text">Available Ticket: {event.availableTickets}</p>
+                <p className="card-text">Ticket Price: {event.ticketPrice}</p>
+                <button
+                  onClick={() => handleDelete(event.eventId)}
+                  className="btn btn-danger btn-sm"
+                >
+                  Delete
+                </button>
+                <button
+                  onClick={() => handleUpdate(event.eventId)}
+                  className="btn btn-primary btn-sm"
+                >
+                  Update
+                </button>
+              </div>
             </div>
-          </li>
-        ))}
-      </ul>
-    </div>
+          ))}
+        </div>
+      </div>
     </>
   );
 };
